@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Confirm Subscription</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        color: #333;
+      }
+      .btn {
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: #3498db;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Thanks for subscribing!</h2>
+    <p>To start receiving weather updates, please confirm your subscription.</p>
+    <p><a class="btn" href="{{CONFIRM_URL}}">Confirm Subscription</a></p>
+
+    <p>If you didn’t request this, you can cancel using the link below:</p>
+    <p><a href="{{CANCEL_URL}}">Cancel Subscription</a></p>
+  </body>
+</html>

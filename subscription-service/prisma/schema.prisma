@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+  output = "./generated"
+  binaryTargets = ["native", "linux-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MailingFrequency {
+  HOURLY
+  DAILY
+}
+
+model Subscription {
+  id   Int  @id @default(autoincrement())
+  email String @unique
+  city String
+  frequency MailingFrequency
+  confirmed Boolean @default(false)
+  secretToken String @map("secret_token")
+  lastSentAt DateTime? @map("last_sent_at")
+  createdAt DateTime @default(now()) @map("created_at")
+}

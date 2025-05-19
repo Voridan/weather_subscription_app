@@ -13,7 +13,7 @@ class SubscriptionService {
 
     return this.suscriptionRepo.create({
       ...subscriptionDto,
-      city: subscriptionDto.city.toLowerCase(),
+      city: subscriptionDto.city.trim().toLowerCase(),
       secretToken,
     });
   }

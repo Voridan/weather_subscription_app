@@ -1,7 +1,7 @@
 services:
   weather_api:
     build:
-      context: .
+      context: ./subscription-service
       dockerfile: Dockerfile.dev
     container_name: express_weather_api
     ports:
@@ -9,11 +9,24 @@ services:
     environment:
       - NODE_ENV=development
     env_file:
-      - .env
+      - ./subscription-service/.env
     depends_on:
       - postgres_db
     volumes:
-      - ./src:/app/src
+      - ./subscription-service/src:/app/src
+
+  scheduler:
+    build:
+      context: ./scheduler
+      dockerfile: Dockerfile.dev
+    container_name: weather_scheduler
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - ./scheduler/.env
+    depends_on:
+      - weather_api
+      - postgres_db
 
   postgres_db:
     image: postgres
@@ -23,6 +36,6 @@ services:
     ports:
       - "5432:5432"
     env_file:
-      - .env
+      - ./subscription-service/.env
     environment:
       - POSTGRES_INITDB_ARGS='--locale=en_US.UTF-8'

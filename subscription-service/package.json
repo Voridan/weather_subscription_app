@@ -5,7 +5,6 @@
   "license": "MIT",
   "scripts": {
     "start:dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/index.ts",
-    "docker:dev": "docker-compose -f docker-compose.yml up --build --watch",
     "build": "tsc",
     "start": "node dist/index.js",
     "prisma:migrate": "prisma migrate deploy"

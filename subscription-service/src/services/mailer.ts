@@ -22,8 +22,8 @@ export class MailerService {
     );
     let html = await fs.readFile(htmlPath, "utf-8");
 
-    const confirmUrl = `${process.env.API_DOMAIN}/confirm/${token}`;
-    const cancelUrl = `${process.env.API_DOMAIN}/unsubscribe/${token}`;
+    const confirmUrl = `${process.env.API_DOMAIN}/api/confirm/${token}`;
+    const cancelUrl = `${process.env.API_DOMAIN}/api/unsubscribe/${token}`;
 
     html = html
       .replace("{{CONFIRM_URL}}", confirmUrl)

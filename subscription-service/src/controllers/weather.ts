@@ -18,7 +18,6 @@ export const getWeather = async (req: Request, res: Response) => {
 
     const weather = await weatherApiRes.json();
     const { condition, temp_c: temperature, humidity } = weather.current;
-    console.log(JSON.stringify(weather, null, "  "));
 
     res
       .status(200)

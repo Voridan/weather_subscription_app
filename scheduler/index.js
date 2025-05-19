@@ -15,4 +15,4 @@ cron.schedule("0 8 * * *", () => {
   sendDailyEmails().catch(console.error);
 });
 
-console.log("📆 Scheduler запущено");
+console.log("Scheduler запущено");

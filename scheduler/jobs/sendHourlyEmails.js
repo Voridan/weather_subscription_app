@@ -1,4 +1,4 @@
-import { transporter } from "../utils/mailer.js";
+import { getMailBodyHtml, transporter } from "../utils/mailer.js";
 import { getWeather } from "../utils/api.js";
 import {
   getHourlySubscriptions,
@@ -20,7 +20,11 @@ export async function sendHourlyEmails() {
           from: process.env.SMTP_USER,
           to: sub.email,
           subject: `Weather in ${sub.city} (hourly)`,
-          text: `Temperature: ${temperature}°C\nHumidity:${humidity}%\nDescription: ${description}`,
+          html: getMailBodyHtml(
+            { city: sub.city, temperature, humidity, description },
+            process.env.API_PUBLIC_DOMAIN,
+            sub.secret_token
+          ),
         });
 
         await updateLastSentTime(sub.id);

@@ -13,7 +13,7 @@ export const createSubscription = async (
   try {
     const emailExists = await subscriptionService.emailExists(body.email);
     if (emailExists) {
-      res.status(400).send();
+      res.status(409).json({ message: "Email already subscribed" });
       return;
     }
 
@@ -21,7 +21,7 @@ export const createSubscription = async (
       body.email
     );
     if (!isEmailDomainValid) {
-      res.status(400).send();
+      res.status(400).json({ message: "Invalid input" });
       return;
     }
 
@@ -32,7 +32,8 @@ export const createSubscription = async (
       subscription.secretToken
     );
 
-    res.status(200).json(subscription);
+    const { secretToken, ...publicData } = subscription;
+    res.status(200).json(publicData);
   } catch (error) {
     console.log("subscription creation faild:", (error as Error).message);
     res.sendStatus(500);
@@ -46,18 +47,18 @@ export const confirmSubscription = async (
   const { token } = req.params;
 
   if (token.length !== TOKEN_LENGTH) {
-    res.sendStatus(400);
+    res.status(400).json({ message: "Invalid token" });
     return;
   }
 
   const subscriptionId = await subscriptionService.findWithToken(token);
   if (!subscriptionId) {
-    res.sendStatus(404);
+    res.status(404).json({ message: "Token not found" });
     return;
   }
 
   await subscriptionService.confirmSubscription(subscriptionId);
-  res.status(200).send("<h1>Subscription confirmed</h1>");
+  res.status(200).json({ message: "Subscription confirmed successfully" });
 };
 
 export const cancelSubscription = async (
@@ -67,16 +68,16 @@ export const cancelSubscription = async (
   const { token } = req.params;
 
   if (token.length !== TOKEN_LENGTH) {
-    res.sendStatus(400);
+    res.status(400).json({ message: "Invalid token" });
     return;
   }
 
   const subscriptionId = await subscriptionService.findWithToken(token);
   if (!subscriptionId) {
-    res.sendStatus(404);
+    res.status(404).json({ message: "Token not found" });
     return;
   }
 
   await subscriptionService.cancelSubscription(subscriptionId);
-  res.status(200).send("<h1>Subscription canceled</h1>");
+  res.status(200).json({ message: "Unsubscribed successfully" });
 };

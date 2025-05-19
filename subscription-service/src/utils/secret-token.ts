@@ -1,8 +1,10 @@
 import { randomBytes } from "crypto";
 
+export const TOKEN_LENGTH = 128;
+
 export function generateSecretToken() {
-  const tokenLength = 64;
-  const token = randomBytes(tokenLength).toString("hex");
+  const tokenBytesLength = 64;
+  const token = randomBytes(tokenBytesLength).toString("hex");
 
   return token;
 }

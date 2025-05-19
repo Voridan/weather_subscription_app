@@ -1,10 +1,10 @@
-import { Router } from "express";
-import { validateBody } from "../middlewares/validate";
-import { SubscribeDto } from "../dto/subscribe.dto";
-import { createSubscription } from "../controllers/subscription";
+import subscriptionRoutes from "./subscription";
+import weatherRoutes from "./weather";
+import { Express } from "express-serve-static-core";
 
-const router = Router();
+const initRoutes = (app: Express) => {
+  app.use("/api", subscriptionRoutes);
+  app.use("/api/weather", weatherRoutes);
+};
 
-router.post("/subscribe", validateBody(SubscribeDto), createSubscription);
-
-export default router;
+export { initRoutes };

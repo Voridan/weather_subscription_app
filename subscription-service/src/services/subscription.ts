@@ -19,7 +19,12 @@ class SubscriptionService {
   }
 
   async emailExists(email: string) {
-    const doesExists = await this.suscriptionRepo.exists(email);
+    const doesExists = await this.suscriptionRepo.existsByEmail(email);
+    return !!doesExists;
+  }
+
+  async cityExists(city: string) {
+    const doesExists = await this.suscriptionRepo.existsByCity(city);
     return !!doesExists;
   }
 
@@ -33,6 +38,19 @@ class SubscriptionService {
     } catch (err) {
       return false;
     }
+  }
+
+  async findWithToken(token: string) {
+    const existsWithToken = await this.suscriptionRepo.existsByToken(token);
+    return existsWithToken?.id || null;
+  }
+
+  confirmSubscription(id: number) {
+    return this.suscriptionRepo.update(id, { confirmed: true });
+  }
+
+  cancelSubscription(id: number) {
+    return this.suscriptionRepo.delete(id);
   }
 }
 

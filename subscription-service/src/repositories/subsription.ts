@@ -19,8 +19,8 @@ export class SubscriptionRepository extends BaseRepository<Subscription> {
     return this.prisma.subscription.create({ data });
   }
 
-  exists(email: string) {
-    return this.prisma.subscription.findFirst({
+  existsByEmail(email: string) {
+    return this.prisma.subscription.findUnique({
       where: {
         email,
       },
@@ -30,11 +30,36 @@ export class SubscriptionRepository extends BaseRepository<Subscription> {
     });
   }
 
-  update(id: number, data: any): Promise<Subscription | null> {
-    throw new Error("Method not implemented.");
+  existsByToken(token: string) {
+    return this.prisma.subscription.findFirst({
+      where: {
+        secretToken: token,
+      },
+      select: {
+        id: true,
+      },
+    });
+  }
+
+  existsByCity(city: string) {
+    return this.prisma.subscription.findFirst({
+      where: {
+        city,
+      },
+      select: {
+        id: true,
+      },
+    });
+  }
+
+  update(
+    id: number,
+    data: Partial<Subscription>
+  ): Promise<Subscription | null> {
+    return this.prisma.subscription.update({ where: { id }, data });
   }
 
   delete(id: number): Promise<Subscription | null> {
-    throw new Error("Method not implemented.");
+    return this.prisma.subscription.delete({ where: { id } });
   }
 }
